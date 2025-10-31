@@ -9,6 +9,9 @@ RUN apk update && apk add --no-cache maven
 
 # Compilar
 RUN mvn clean package -DskipTests
+#agregado 2
+# Encuentra cualquier JAR que termine en .jar en target/ y muévelo a un nombre fijo
+RUN find target/ -name "*.jar" -exec mv {} target/app-prod.jar \;
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
