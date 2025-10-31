@@ -1,0 +1,46 @@
+# A. Artefactos de Compilacion y Logs
+target/
+build/
+.log
+
+# B. Archivos de Entorno y Exclusiones Especificas del Proyecto
+.railway/
+init-db/
+#.mvn/wrapper/maven-wrapper.jar
+
+# C. Archivos de IDE y Entorno Local
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### VS Code ###
+.vscode/
+
+### STS (Spring Tools Suite) ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+#Archivos de ayuda que no son código esencial
+#HELP.md
+order-service/HELP.md
+
+# D. Reglas complejas (Análisis)
+
+
+
+

@@ -22,10 +22,22 @@ spring:
 
 ---
 # Perfil para Docker
+#spring:
+#  config:
+#    activate:
+#      on-profile: docker
+#
+#  jpa:
+#    show-sql: false  # En Docker mejor sin logs
+
+---
+# Perfil para producción
 spring:
   config:
     activate:
-      on-profile: docker
+      on-profile: production
 
   jpa:
-    show-sql: false  # En Docker mejor sin logs
+    show-sql: false
+    hibernate:
+      ddl-auto: validate  # Más seguro en producción
