@@ -1,0 +1,59 @@
+#version: '3.9'
+
+services:
+  # ==========================
+  # 🗄️ BASE DE DATOS PRINCIPAL
+  # ==========================
+  postgres_main:
+    image: postgres:15-alpine
+    container_name: postgres_main
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: order_service_db
+    ports:
+      - "5433:5432"
+    volumes:
+#      - ./init-db:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - order-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # =======================
+  # 🛒 ORDER-SERVICE (8082)
+  # =======================
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile # Se busca Dockerfile dentro del contexto
+    container_name: order_service
+    ports:
+      - "8082:8082"
+    depends_on:
+      postgres_main:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_main:5432/order_service_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SERVER_PORT: 8082
+    networks:
+      - order-network
+    restart: on-failure
+
+
+# ==========================================
+# 🧱 VOLUMES & NETWORK
+# ==========================================
+volumes:
+  postgres_data:
+
+networks:
+  order-network:
+    driver: bridge
