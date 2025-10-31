@@ -1,5 +1,5 @@
 # A. Artefactos de Compilacion y Logs
-target/
+order-service/target/
 build/
 .log
 
