@@ -40,7 +40,7 @@ spring:
   jpa:
     show-sql: false
     hibernate:
-      ddl-auto: validate  # Más seguro en producción
+      ddl-auto: update  # Más seguro en producción
 #  sql:
 #    init:
 #      mode: always # Asegura que data.sql se ejecute

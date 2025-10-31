@@ -1,7 +1,7 @@
 FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 COPY order-service/pom.xml .
-COPY order-service/src ./srcgit
+COPY order-service/src ./src
 
 # Instalar Maven
 RUN apk update && apk add --no-cache maven
