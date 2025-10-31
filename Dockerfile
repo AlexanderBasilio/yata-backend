@@ -4,7 +4,7 @@ COPY order-service/pom.xml .
 COPY order-service/src ./srcgit
 
 # Instalar Maven
-RUN apk add --no-cache maven
+RUN apk update && apk add --no-cache maven
 #apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 
 # Compilar
