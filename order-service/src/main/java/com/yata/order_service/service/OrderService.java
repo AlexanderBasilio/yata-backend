@@ -7,6 +7,7 @@ import com.yata.order_service.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.yata.order_service.notification.SlackService; // <--- NUEVO IMPORT
 
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final SlackService slackService; // <--- NUEVA INYECCIÓN
 
     @Transactional
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
@@ -71,6 +73,10 @@ public class OrderService {
         System.out.println("✅ Orden guardada: " + orderId);
         System.out.println("👤 Cliente: " + request.getCustomerName());
         System.out.println("📱 Teléfono: " + request.getCustomerPhone());
+
+        // 5.b. Notificar a Slack (NUEVA LÍNEA CLAVE)
+        slackService.notifyNewOrder(request);
+        // Esta llamada no bloqueará la respuesta gracias a la ejecución asíncrona
 
         // 6. Respuesta
         return CreateOrderResponse.builder()
