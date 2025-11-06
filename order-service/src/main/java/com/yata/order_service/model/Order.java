@@ -57,4 +57,7 @@ public class Order {
 
     @Column(nullable = false, length = 20)
     private String customerPhone;
+
+    @Column(name = "points_earned")
+    private Integer pointsEarned;
 }

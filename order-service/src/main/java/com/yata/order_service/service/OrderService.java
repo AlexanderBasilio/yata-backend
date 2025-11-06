@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.yata.order_service.notification.SlackService; // <--- NUEVO IMPORT
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -64,6 +65,16 @@ public class OrderService {
                 .customerPhone(request.getCustomerPhone())
                 .build();
 
+        // 3.b. LÓGICA DE CÁLCULO DE PUNTOS (Nuevo Bloque)
+        double totalAmount = request.getSummary().getTotal(); // Obtiene el total (ej: 73.50)
+
+        // Redondea al entero más cercano (Math.round() devuelve long, se hace cast a int)
+        int pointsEarned = (int) Math.round(totalAmount);
+
+        // Asigna los puntos calculados a la entidad Order
+        order.setPointsEarned(pointsEarned);
+        // Si la compra fue 73.50, pointsEarned es 74. Si fue 73.49, es 73
+
         // 4. Asignar orden a cada item (relación bidireccional)
         items.forEach(item -> item.setOrder(order));
 
@@ -82,6 +93,7 @@ public class OrderService {
         return CreateOrderResponse.builder()
                 .success(true)
                 .orderId(orderId)
+                .pointsEarned(pointsEarned) // Opcional: Incluye los puntos ganados en la respuesta
                 .message("Pedido creado exitosamente")
                 .build();
     }

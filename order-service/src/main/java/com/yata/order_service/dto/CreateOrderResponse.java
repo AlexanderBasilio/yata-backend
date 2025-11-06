@@ -11,4 +11,5 @@ public class CreateOrderResponse {
     private boolean success;
     private String orderId;
     private String message;
+    private Integer pointsEarned;
 }
